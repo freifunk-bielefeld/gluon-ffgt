@@ -11,6 +11,13 @@ charset = utf-8
 indent_style = space
 indent_size = 4
 
+# FIXME this needs to be gone eventually
+[*.mk]
+indent_style = unset
+end_of_line = unset
+insert_final_newline = unset
+indent_size = unset
+
 [/patches/**]
 indent_style = unset
 indent_size = unset
@@ -30,6 +37,10 @@ indent_style = space
 indent_size = 2
 
 [*.lua]
+
+# FIXME this needs to be gone eventually
+[Makefile]
+indent_style = unset
 
 [*.md]
 indent_style = space
