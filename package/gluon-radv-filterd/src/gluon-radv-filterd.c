@@ -81,10 +81,10 @@
 
 #ifdef DEBUG
 #define CHECK(stmt) \
-    if(!(stmt)) { \
-        fprintf(stderr, "check failed: " #stmt "\n"); \
-        goto check_failed; \
-    }
+	if(!(stmt)) { \
+		fprintf(stderr, "check failed: " #stmt "\n"); \
+		goto check_failed; \
+	}
 #define DEBUG_MSG(msg, ...) fprintf(stderr, msg "\n", ##__VA_ARGS__)
 #else
 #define CHECK(stmt) if(!(stmt)) goto check_failed;
@@ -100,8 +100,8 @@
 
 #define foreach_safe(item, safe, list) \
 	for ((item) = (list); \
-	     (item) && (((safe) = item->next) || 1); \
-	     (item) = (safe))
+			(item) && (((safe) = item->next) || 1); \
+			(item) = (safe))
 
 struct router {
 	struct router *next;
@@ -125,7 +125,7 @@ static struct global {
 };
 
 static int fork_execvp_timeout(struct timespec *timeout, const char *file,
-			       const char *const argv[]);
+		const char *const argv[]);
 
 static void error_message(int status, int errnum, char *message, ...) {
 	va_list ap;
@@ -142,7 +142,7 @@ static void error_message(int status, int errnum, char *message, ...) {
 }
 
 static int timespec_diff(struct timespec *tv1, struct timespec *tv2,
-			 struct timespec *tvdiff)
+		struct timespec *tvdiff)
 {
 	tvdiff->tv_sec = tv1->tv_sec - tv2->tv_sec;
 	if (tv1->tv_nsec < tv2->tv_nsec) {
@@ -241,8 +241,8 @@ static int init_packet_socket(unsigned int ifindex) {
 	};
 
 	struct sock_fprog radv_filter = {
-	    .len = ARRAY_SIZE(radv_filter_code),
-	    .filter = radv_filter_code,
+		.len = ARRAY_SIZE(radv_filter_code),
+		.filter = radv_filter_code,
 	};
 
 	int sock = socket(AF_PACKET, SOCK_DGRAM|SOCK_CLOEXEC, htons(ETH_P_IPV6));
@@ -404,7 +404,7 @@ static void expire_routers(void) {
 }
 
 static int parse_tt_global(struct nl_msg *msg,
-			   void *arg __attribute__((unused)))
+		void *arg __attribute__((unused)))
 {
 	static const enum batadv_nl_attrs mandatory[] = {
 		BATADV_ATTR_TT_ADDRESS,
@@ -428,7 +428,7 @@ static int parse_tt_global(struct nl_msg *msg,
 		return NL_OK;
 
 	if (nla_parse(attrs, BATADV_ATTR_MAX, genlmsg_attrdata(ghdr, 0),
-		      genlmsg_len(ghdr), batadv_genl_policy)) {
+				genlmsg_len(ghdr), batadv_genl_policy)) {
 		return NL_OK;
 	}
 
@@ -450,14 +450,14 @@ static int parse_tt_global(struct nl_msg *msg,
 		return NL_OK;
 
 	DEBUG_MSG("Found originator for " F_MAC ", it's " F_MAC,
-		  F_MAC_VAR(router->src), F_MAC_VAR(mac_b));
+			F_MAC_VAR(router->src), F_MAC_VAR(mac_b));
 	router->originator = mac_b;
 
 	return NL_OK;
 }
 
 static int parse_originator(struct nl_msg *msg,
-			    void *arg __attribute__((unused)))
+		void *arg __attribute__((unused)))
 {
 
 	static const enum batadv_nl_attrs mandatory[] = {
@@ -482,7 +482,7 @@ static int parse_originator(struct nl_msg *msg,
 		return NL_OK;
 
 	if (nla_parse(attrs, BATADV_ATTR_MAX, genlmsg_attrdata(ghdr, 0),
-		      genlmsg_len(ghdr), batadv_genl_policy)) {
+				genlmsg_len(ghdr), batadv_genl_policy)) {
 		return NL_OK;
 	}
 
@@ -503,7 +503,7 @@ static int parse_originator(struct nl_msg *msg,
 		return NL_OK;
 
 	DEBUG_MSG("Found TQ for router " F_MAC " (originator " F_MAC "), it's %d",
-		  F_MAC_VAR(router->src), F_MAC_VAR(router->originator), tq);
+			F_MAC_VAR(router->src), F_MAC_VAR(router->originator), tq);
 	router->tq = tq;
 	if (router->tq > G.max_tq)
 		G.max_tq = router->tq;
@@ -512,7 +512,7 @@ static int parse_originator(struct nl_msg *msg,
 }
 
 static int parse_tt_local(struct nl_msg *msg,
-			  void *arg __attribute__((unused)))
+		void *arg __attribute__((unused)))
 {
 	static const enum batadv_nl_attrs mandatory[] = {
 		BATADV_ATTR_TT_ADDRESS,
@@ -534,7 +534,7 @@ static int parse_tt_local(struct nl_msg *msg,
 		return NL_OK;
 
 	if (nla_parse(attrs, BATADV_ATTR_MAX, genlmsg_attrdata(ghdr, 0),
-		      genlmsg_len(ghdr), batadv_genl_policy)) {
+				genlmsg_len(ghdr), batadv_genl_policy)) {
 		return NL_OK;
 	}
 
@@ -550,7 +550,7 @@ static int parse_tt_local(struct nl_msg *msg,
 		return NL_OK;
 
 	DEBUG_MSG("Found router " F_MAC " in transtable_local, assigning TQ %d",
-		  F_MAC_VAR(router->src), LOCAL_TQ);
+			F_MAC_VAR(router->src), LOCAL_TQ);
 	router->tq = LOCAL_TQ;
 	if (router->tq > G.max_tq)
 		G.max_tq = router->tq;
@@ -792,7 +792,7 @@ int main(int argc, char *argv[]) {
 
 		clock_gettime(CLOCK_MONOTONIC, &now);
 		if (G.routers != NULL &&
-		    timespec_diff(&now, &next_update, &diff)) {
+				timespec_diff(&now, &next_update, &diff)) {
 			expire_routers();
 
 			// all routers could have expired, check again
