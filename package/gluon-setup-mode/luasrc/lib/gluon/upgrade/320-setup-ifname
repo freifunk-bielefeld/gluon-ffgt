@@ -4,6 +4,9 @@ local platform = require 'gluon.platform'
 local sysconfig = require 'gluon.sysconfig'
 
 
+-- wusel, 20170505: Make sure WAN is used for setup ...
+sysconfig.setup_ifname = sysconfig.wan_ifname or sysconfig.lan_ifname
+
 if sysconfig.setup_ifname then
 	os.exit(0)
 end
