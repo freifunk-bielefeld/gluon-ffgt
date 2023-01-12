@@ -3,6 +3,7 @@ local site_i18n = i18n 'gluon-site'
 local site = require 'gluon.site'
 local sysconfig = require 'gluon.sysconfig'
 local pretty_hostname = require 'pretty_hostname'
+local selected_domain = uci:get('gluon', 'core', 'domain')
 
 local uci = require("simple-uci").cursor()
 
@@ -16,5 +17,6 @@ renderer.render_string(msg, {
 	hostname = hostname,
 	site = site,
 	sysconfig = sysconfig,
+	domain = selected_domain,
 	contact = contact,
 })
