@@ -29,6 +29,6 @@ renderer.render_string(msg, {
 	site = site,
 	sysconfig = sysconfig,
 	domain = selected_domain,
-	domain_name = domain_name,
+	domainname = domain_name,
 	contact = contact,
 })
